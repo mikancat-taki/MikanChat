@@ -71,13 +71,16 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Mobile Bottom Navigation */}
+      {/* Mobile Bottom Navigation - smaller and less intrusive */}
       <div className="lg:hidden">
         <MobileBottomNav
           onMemoClick={() => setShowMemo(true)}
           onProfileClick={() => setShowProfile(true)}
         />
       </div>
+
+      {/* Add bottom padding for mobile to account for nav bar */}
+      <div className="lg:hidden h-12"></div>
 
       {/* Modals */}
       <RegistrationModal

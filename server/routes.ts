@@ -37,6 +37,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.patch('/api/auth/user', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { username, country, language } = req.body;
+      
+      const updatedUser = await storage.upsertUser({
+        id: userId,
+        username,
+        country,
+        language,
+        email: req.user.claims.email,
+        firstName: req.user.claims.first_name,
+        lastName: req.user.claims.last_name,
+        profileImageUrl: req.user.claims.profile_image_url,
+      });
+      
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Error updating user:", error);
+      res.status(500).json({ message: "Failed to update user" });
+    }
+  });
+
   // Chat room routes
   app.get('/api/rooms', isAuthenticated, async (req: any, res) => {
     try {
@@ -119,6 +142,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error creating memo:", error);
       res.status(500).json({ message: "Failed to create memo" });
+    }
+  });
+
+  app.patch('/api/memos/:id', isAuthenticated, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const { content } = req.body;
+      const memo = await storage.updateUserMemo(id, content);
+      res.json(memo);
+    } catch (error) {
+      console.error("Error updating memo:", error);
+      res.status(500).json({ message: "Failed to update memo" });
     }
   });
 

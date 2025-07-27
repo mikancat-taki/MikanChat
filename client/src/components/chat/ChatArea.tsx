@@ -82,7 +82,7 @@ export default function ChatArea({ roomId, onUserClick }: ChatAreaProps) {
   }
 
   return (
-    <div className="flex-1 flex flex-col h-screen">
+    <div className="flex-1 flex flex-col h-screen pb-12 lg:pb-0">
       {/* Chat Header */}
       <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center space-x-3">
