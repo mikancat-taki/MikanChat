@@ -1,0 +1,205 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+  
+  /* Mikan (Orange) theme colors */
+  --mikan: hsl(16, 100%, 60%);
+  --mikan-light: hsl(16, 100%, 70%);
+  --mikan-dark: hsl(16, 85%, 55%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+  
+  /* Dark mode mikan colors */
+  --mikan: hsl(16, 100%, 60%);
+  --mikan-light: hsl(16, 100%, 70%);
+  --mikan-dark: hsl(16, 85%, 55%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer utilities {
+  .bg-mikan {
+    background-color: var(--mikan);
+  }
+  
+  .bg-mikan-light {
+    background-color: var(--mikan-light);
+  }
+  
+  .bg-mikan-dark {
+    background-color: var(--mikan-dark);
+  }
+  
+  .text-mikan {
+    color: var(--mikan);
+  }
+  
+  .text-mikan-light {
+    color: var(--mikan-light);
+  }
+  
+  .text-mikan-dark {
+    color: var(--mikan-dark);
+  }
+  
+  .border-mikan {
+    border-color: var(--mikan);
+  }
+  
+  .ring-mikan {
+    --tw-ring-color: var(--mikan);
+  }
+  
+  .hover\:bg-mikan:hover {
+    background-color: var(--mikan);
+  }
+  
+  .hover\:bg-mikan-dark:hover {
+    background-color: var(--mikan-dark);
+  }
+  
+  .focus\:ring-mikan:focus {
+    --tw-ring-color: var(--mikan);
+  }
+  
+  .focus\:border-mikan:focus {
+    border-color: var(--mikan);
+  }
+}
+
+/* Custom scrollbar styles */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thumb-gray-300 {
+  scrollbar-color: #d1d5db transparent;
+}
+
+.scrollbar-track-transparent {
+  scrollbar-color: #d1d5db transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Animation for message appearance */
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message-slide-in {
+  animation: messageSlideIn 0.3s ease-out;
+}
+
+/* Country flag badges */
+.country-flag {
+  @apply inline-flex items-center justify-center text-white text-xs font-bold rounded-sm;
+  width: 20px;
+  height: 12px;
+}
+
+.flag-jp { @apply bg-red-500; }
+.flag-us { @apply bg-blue-600; }
+.flag-kr { @apply bg-blue-500; }
+.flag-cn { @apply bg-red-600; }
+.flag-de { @apply bg-yellow-500 text-black; }
+.flag-fr { @apply bg-blue-700; }
+.flag-es { @apply bg-yellow-400 text-black; }
+.flag-it { @apply bg-green-600; }
+.flag-br { @apply bg-green-500; }
+.flag-in { @apply bg-orange-500; }
+
+/* Typing indicator animation */
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(.8);
+    opacity: .5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.typing-dot {
+  animation: bounce 1.4s infinite ease-in-out;
+  animation-fill-mode: both;
+}
+
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+.typing-dot:nth-child(3) { animation-delay: 0s; }
