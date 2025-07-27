@@ -65,8 +65,8 @@ export default function ChatArea({ roomId, onUserClick }: ChatAreaProps) {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSendMessage = (content: string) => {
-    sendMessage(content);
+  const handleSendMessage = (content: string, messageType = 'text') => {
+    sendMessage(content, messageType);
   };
 
   const handleTyping = (isTyping: boolean) => {
