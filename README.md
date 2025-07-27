@@ -1,4 +1,6 @@
 # みかんチャット
+-----------------
+<img width="457" height="375" alt="スクリーンショット 2025-06-30 014524" src="https://github.com/user-attachments/assets/720c9529-e4a4-4680-8d7d-a5ee753992c1" />
 -----------
 日本語版
 ------
@@ -23,3 +25,4 @@ mikancat.mk.taki@gmail.com
 ```
 ---------------------
 Ver.1.1.20
+RGGroup.mikan-chat.©
