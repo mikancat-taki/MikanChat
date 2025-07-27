@@ -186,6 +186,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
             } catch (error) {
               // User might already be a member
             }
+            
+            // Send room history when user joins
+            try {
+              const roomHistory = await storage.getMessagesForRoom(message.data.roomId);
+              ws.send(JSON.stringify({
+                type: 'room_history',
+                data: roomHistory
+              }));
+            } catch (error) {
+              console.error('Error fetching room history:', error);
+            }
             break;
             
           case 'send_message':

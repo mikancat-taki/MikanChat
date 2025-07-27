@@ -48,17 +48,11 @@ const roomInfo = {
 };
 
 export default function ChatArea({ roomId, onUserClick }: ChatAreaProps) {
-  const { isConnected, messages, typingUsers, sendMessage, sendTyping } = useWebSocket(roomId);
+  const { isConnected, messages, typingUsers, sendMessage, sendTyping, hasLoadedHistory } = useWebSocket(roomId);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   const room = roomInfo[roomId as keyof typeof roomInfo] || roomInfo["global-1"];
   const Icon = room.icon;
-
-  // Fetch initial messages
-  const { data: initialMessages, isLoading } = useQuery({
-    queryKey: ['/api/rooms', roomId, 'messages'],
-    enabled: !!roomId,
-  });
 
   // Scroll to bottom when new messages arrive
   useEffect(() => {
@@ -73,7 +67,7 @@ export default function ChatArea({ roomId, onUserClick }: ChatAreaProps) {
     sendTyping(isTyping);
   };
 
-  if (isLoading) {
+  if (!hasLoadedHistory && !isConnected) {
     return (
       <div className="flex-1 flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-mikan"></div>

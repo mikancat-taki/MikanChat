@@ -26,6 +26,7 @@ export function useWebSocket(roomId: string) {
   const [isConnected, setIsConnected] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [typingUsers, setTypingUsers] = useState<string[]>([]);
+  const [hasLoadedHistory, setHasLoadedHistory] = useState(false);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout>();
   const typingTimeoutRef = useRef<NodeJS.Timeout>();
 
@@ -44,7 +45,7 @@ export function useWebSocket(roomId: string) {
       // Authenticate with the server
       ws.send(JSON.stringify({
         type: 'auth',
-        data: { userId: user.id }
+        data: { userId: user?.id }
       }));
 
       // Join the room
@@ -62,6 +63,12 @@ export function useWebSocket(roomId: string) {
           case 'new_message':
           case 'message_sent':
             setMessages(prev => [message.data, ...prev]);
+            break;
+            
+          case 'room_history':
+            // Load historical messages when joining a room
+            setMessages(message.data || []);
+            setHasLoadedHistory(true);
             break;
             
           case 'user_typing':
@@ -121,12 +128,18 @@ export function useWebSocket(roomId: string) {
     };
   }, [connect]);
 
+  // Reset messages and history state when room changes
+  useEffect(() => {
+    setMessages([]);
+    setHasLoadedHistory(false);
+  }, [roomId]);
+
   const sendMessage = useCallback((content: string, messageType = 'text') => {
     if (socket && socket.readyState === WebSocket.OPEN && user) {
       // Mock translation for non-English content
       let translatedContent = undefined;
       const hasNonAscii = /[^\x00-\x7F]/.test(content);
-      if (hasNonAscii && user.language !== 'en') {
+      if (hasNonAscii && user?.language !== 'en') {
         translatedContent = "Hello! How is everyone doing?"; // Mock translation
       }
 
@@ -136,7 +149,7 @@ export function useWebSocket(roomId: string) {
           roomId,
           content,
           messageType,
-          originalLanguage: user.language || 'ja',
+          originalLanguage: user?.language || 'ja',
           translatedContent,
         }
       }));
@@ -161,5 +174,6 @@ export function useWebSocket(roomId: string) {
     typingUsers,
     sendMessage,
     sendTyping,
+    hasLoadedHistory,
   };
 }

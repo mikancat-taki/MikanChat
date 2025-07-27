@@ -33,6 +33,7 @@ export interface IStorage {
   
   // Message operations
   getMessages(roomId: string, limit?: number): Promise<(Message & { user: User })[]>;
+  getMessagesForRoom(roomId: string, limit?: number): Promise<(Message & { user: User })[]>;
   createMessage(message: InsertMessage): Promise<Message>;
   
   // Room member operations
@@ -91,6 +92,26 @@ export class DatabaseStorage implements IStorage {
 
   // Message operations
   async getMessages(roomId: string, limit = 50): Promise<(Message & { user: User })[]> {
+    return await db
+      .select({
+        id: messages.id,
+        roomId: messages.roomId,
+        userId: messages.userId,
+        content: messages.content,
+        messageType: messages.messageType,
+        translatedContent: messages.translatedContent,
+        originalLanguage: messages.originalLanguage,
+        createdAt: messages.createdAt,
+        user: users,
+      })
+      .from(messages)
+      .innerJoin(users, eq(messages.userId, users.id))
+      .where(eq(messages.roomId, roomId))
+      .orderBy(desc(messages.createdAt))
+      .limit(limit);
+  }
+
+  async getMessagesForRoom(roomId: string, limit = 50): Promise<(Message & { user: User })[]> {
     return await db
       .select({
         id: messages.id,
